@@ -15,7 +15,7 @@ jobs:
     - name: "Pushing image to docker.pkg.github.com"
       run: |
         docker login docker.pkg.github.com --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-        docker push docker.pkg.github.com/georchestra/georchestra/sshdata
+        docker push docker.pkg.github.com/georchestra/sshdata
       env:
           DOCKER_USERNAME: georchestra
           DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
