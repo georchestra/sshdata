@@ -10,7 +10,7 @@ jobs:
       uses: actions/checkout@v1
 
     - name: "Building docker image"
-      run: docker build -t docker.pkg.github.com/georchestra/georchestra/sshdata .
+      run: docker build -t docker.pkg.github.com/georchestra/sshdata .
 
     - name: "Pushing image to docker.pkg.github.com"
       run: |
@@ -23,7 +23,7 @@ jobs:
     - name: "Pushing image to docker hub"
       run: |
         docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-        docker tag docker.pkg.github.com/georchestra/georchestra/sshdata georchestra/sshdata
+        docker tag docker.pkg.github.com/georchestra/sshdata georchestra/sshdata
         docker push georchestra/sshdata
       env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
