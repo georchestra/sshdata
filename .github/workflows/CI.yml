@@ -1,0 +1,30 @@
+name: "CI"
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Checking out"
+      uses: actions/checkout@v1
+
+    - name: "Building docker image"
+      run: docker build -t docker.pkg.github.com/georchestra/georchestra/ssh_data .
+
+    - name: "Pushing image to docker.pkg.github.com"
+      run: |
+        docker login docker.pkg.github.com --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+        docker push docker.pkg.github.com/georchestra/georchestra/ssh_data
+      env:
+          DOCKER_USERNAME: georchestra
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: "Pushing image to docker hub"
+      run: |
+        docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+        docker tag docker.pkg.github.com/georchestra/georchestra/ssh_data georchestra/ssh_data
+        docker push georchestra/ssh_data
+      env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
