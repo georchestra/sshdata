@@ -19,3 +19,13 @@ jobs:
       env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+    - name: "Update Docker Hub Description for SSH Data"
+      if: github.ref == 'refs/heads/master' && github.repository == 'georchestra/sshdata' && github.actor != 'dependabot[bot]' && github.event_name != 'pull_request'
+      uses: peter-evans/dockerhub-description@v3
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+        repository: georchestra/ssh_data
+        readme-filepath: ./DOCKER_HUB.md
+        short-description: 'SSH data module for the geOrchestra SDI'
